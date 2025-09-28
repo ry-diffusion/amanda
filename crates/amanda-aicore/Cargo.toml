@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 amanda-shared = { version = "0.1.0", path = "../amanda-shared" }
 genai = "0.4.0-alpha.17"
+serde = { version = "1.0.228", features = ["derive"] }

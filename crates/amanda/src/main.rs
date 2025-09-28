@@ -2,6 +2,10 @@ use amanda_shared::color_eyre;
 use amanda_shared::tokio;
 use amanda_shared::tracing;
 
+use crate::settings::Settings;
+
+pub mod settings;
+
 #[tokio::main]
 async fn main() -> color_eyre::Result<()> {
     color_eyre::install()?;
@@ -15,6 +19,8 @@ async fn main() -> color_eyre::Result<()> {
         .init();
 
     tracing::info!("Amanda is booting up.");
+
+    Settings::load_or_create()?;
 
     Ok(())
 }
