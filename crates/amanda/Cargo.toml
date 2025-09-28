@@ -13,6 +13,7 @@ eframe = "0.32.3"
 egui = "0.32.3"
 egui_commonmark = "0.21.1"
 egui_extras = { version = "0.32.3", features = ["all_loaders"] }
+image = { version = "0.25.8", features = ["png", "jpeg"] }
 serde = { version = "1.0.228", features = ["derive"] }
 standard_paths = "2.1.0"
 toml = "0.9.7"

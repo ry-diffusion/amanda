@@ -11,7 +11,12 @@ use amanda_shared::tokio::sync::mpsc::UnboundedSender;
 use std::error::Error;
 use std::sync::Arc;
 
-pub const SYSTEM_INSTRUCTIONS: &str = r#""#;
+pub const SYSTEM_INSTRUCTIONS: &str = r#"
+You are free to use markdown. Example if you want to show images you can use:
+![alt text](image_url).
+
+If the tools returns an field with image you should display them. example get current playing song from spotify api returns an image field with the album cover url.
+"#;
 
 #[derive(Clone, Debug)]
 pub enum TurnEvent {
@@ -87,24 +92,24 @@ impl AmandaChat {
         self.transcript.push(AppChatMessage::to_system(format!(
             r#"
             <instructions>
-            You are an AI assistant named "{}".
-            {}
+            You are an AI assistant named "{name}".
+            {sys_instructions}
             </instructions>
             <persona>
-            {}
+            {persona}
             </persona>
             <extra_instructions>
-            {}
+            {extra_instructions}
             </extra_instructions>
             <language>
-            {}
+            {language}
             </language>
             "#,
-            SYSTEM_INSTRUCTIONS,
-            init_opts.persona.name,
-            init_opts.persona.description,
-            init_opts.persona.instructions,
-            init_opts.language.system_prompt
+            name = init_opts.persona.name,
+            sys_instructions = SYSTEM_INSTRUCTIONS,
+            persona = init_opts.persona.description,
+            extra_instructions = init_opts.persona.instructions,
+            language = init_opts.language.system_prompt
         )));
 
         self
