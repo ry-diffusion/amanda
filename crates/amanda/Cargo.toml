@@ -4,3 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+amanda-aicore = { version = "0.1.0", path = "../amanda-aicore" }
+amanda-lowiq = { version = "0.1.0", path = "../amanda-lowiq" }
+amanda-tools-hyprland = { version = "0.1.0", path = "../amanda-tools-hyprland" }
+amanda-tools-standard = { version = "0.1.0", path = "../amanda-tools-standard" }
+amanda-ui = { version = "0.1.0", path = "../amanda-ui" }

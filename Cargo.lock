@@ -5,3 +5,39 @@ version = 4
 [[package]]
 name = "amanda"
 version = "0.1.0"
+dependencies = [
+ "amanda-aicore",
+ "amanda-lowiq",
+ "amanda-tools-hyprland",
+ "amanda-tools-standard",
+ "amanda-ui",
+]
+
+[[package]]
+name = "amanda-aicore"
+version = "0.1.0"
+
+[[package]]
+name = "amanda-lowiq"
+version = "0.1.0"
+dependencies = [
+ "amanda-aicore",
+]
+
+[[package]]
+name = "amanda-tools-hyprland"
+version = "0.1.0"
+dependencies = [
+ "amanda-aicore",
+]
+
+[[package]]
+name = "amanda-tools-standard"
+version = "0.1.0"
+dependencies = [
+ "amanda-aicore",
+]
+
+[[package]]
+name = "amanda-ui"
+version = "0.1.0"
