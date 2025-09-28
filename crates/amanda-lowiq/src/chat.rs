@@ -36,7 +36,7 @@ pub enum TurnEvent {
 /// Application-level chat message used internally by ChatRunner.
 /// Keeps a full transcript, including tool calls and tool results.
 #[derive(Clone, Debug)]
-enum AppChatMessage {
+pub enum AppChatMessage {
     System(String),
     User(String),
     Assistant(String),
@@ -81,7 +81,7 @@ impl AmandaChat {
         }
     }
 
-    pub fn with_init_options(mut self, init_opts: InitOptions) {
+    pub fn with_init_options(mut self, init_opts: InitOptions) -> Self {
         self.transcript().clear();
 
         self.transcript.push(AppChatMessage::to_system(format!(
@@ -106,6 +106,8 @@ impl AmandaChat {
             init_opts.persona.instructions,
             init_opts.language.system_prompt
         )));
+
+        self
     }
 
     /// Altera as opções de chat.
