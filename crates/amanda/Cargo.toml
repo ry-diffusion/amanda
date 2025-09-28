@@ -9,7 +9,13 @@ amanda-lowiq = { version = "0.1.0", path = "../amanda-lowiq" }
 amanda-shared = { version = "0.1.0", path = "../amanda-shared" }
 amanda-tools-hyprland = { version = "0.1.0", path = "../amanda-tools-hyprland" }
 amanda-tools-standard = { version = "0.1.0", path = "../amanda-tools-standard" }
+eframe = "0.32.3"
+egui = "0.32.3"
+egui_commonmark = "0.21.1"
+egui_extras = { version = "0.32.3", features = ["all_loaders"] }
 serde = { version = "1.0.228", features = ["derive"] }
 standard_paths = "2.1.0"
 toml = "0.9.7"
 tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
+
+[build-dependencies]

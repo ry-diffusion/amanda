@@ -1,11 +1,11 @@
-#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Persona {
     pub name: String,
     pub description: String,
     pub instructions: String,
 }
 
-#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Language {
     pub code: String,
     pub pretty_name: String,
