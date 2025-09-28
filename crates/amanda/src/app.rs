@@ -8,6 +8,7 @@ use amanda_lowiq::{languages::SUPPORTED_LANGUAGES, personas::SUPPORTED_PERSONAS}
 use amanda_shared::tokio::sync::mpsc::unbounded_channel;
 use amanda_shared::{tokio, tracing};
 use egui::{Context, Label, UiKind};
+use egui_commonmark::{CommonMarkCache, CommonMarkViewer};
 
 use crate::settings::Settings;
 use std::sync::Arc;
@@ -35,7 +36,7 @@ pub struct AmandaApp {
     input: String,
     tx: Sender<AssistantUpdate>,
     rx: Receiver<AssistantUpdate>,
-
+    cache: CommonMarkCache,
     tools: Arc<ToolStore>,
     amanda: Arc<Mutex<Option<AmandaChat>>>,
 }
@@ -78,7 +79,8 @@ impl AmandaApp {
     }
 
     pub fn new(settings: Settings) -> Self {
-        let tools = ToolStore::new();
+        let mut tools = ToolStore::new();
+        amanda_tools_hyprland::register_hyprland_tools(&mut tools);
         let finished_ts = Arc::new(tools);
         let amanda = Arc::new(Mutex::new(Self::build_client(
             settings.clone(),
@@ -90,6 +92,7 @@ impl AmandaApp {
             on_settings: false,
             settings,
             input: String::new(),
+            cache: CommonMarkCache::default(),
             messages: Vec::from([Message {
                 role: ChatRole::Assistant,
                 content: "Hello! I'm Amanda, your AI assistant. How can I help you today?"
@@ -250,7 +253,8 @@ impl eframe::App for AmandaApp {
                                 .inner_margin(8.0)
                                 .outer_margin(6.0)
                                 .show(ui, |ui| {
-                                    ui.add(Label::new(&msg.content).wrap());
+                                    // ui.add(Label::new(&msg.content).wrap());
+                                    CommonMarkViewer::new().show(ui, &mut self.cache, &msg.content);
                                 });
                         });
                     }
@@ -319,7 +323,7 @@ impl eframe::App for AmandaApp {
                                                 TurnEvent::ModelResponseEnd => {}
                                                 TurnEvent::ToolCallCaptured(tc) => {
                                                     let tool = format!(
-                                                        "🔨 {}({})",
+                                                        "🔨 {}({})\n",
                                                         tc.fn_name, tc.fn_arguments
                                                     );
                                                     content += &tool;
@@ -336,7 +340,7 @@ impl eframe::App for AmandaApp {
                                                     args,
                                                 } => {
                                                     let tool = format!(
-                                                        "⏳ Executing tool: {}({})",
+                                                        "⏳ Executing tool: {}({})\n",
                                                         fn_name, args
                                                     );
                                                     content += &tool;
@@ -354,7 +358,7 @@ impl eframe::App for AmandaApp {
                                                         .remove(&call_id)
                                                         .unwrap_or("unknown".to_string());
                                                     let tool =
-                                                        format!("✅ Tool {} executed.", fn_name);
+                                                        format!("✅ Tool {} executed.\n", fn_name);
                                                     content += &tool;
                                                     let _ =
                                                         message_tx.send(AssistantUpdate::Replace {
