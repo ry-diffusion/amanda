@@ -1,8 +1,10 @@
 [workspace]
 members = [
-  "crates/amanda", "crates/amanda-aicore", "crates/amanda-lowiq",
+  "crates/amanda",
+  "crates/amanda-aicore",
+  "crates/amanda-lowiq",
+  "crates/amanda-shared",
   "crates/amanda-tools-hyprland",
   "crates/amanda-tools-standard",
-  "crates/amanda-ui",
 ]
 resolver = "3"
